@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './App.css'
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -17,7 +18,7 @@ function App() {
       const newTask = {
         task: inputValue,
         dueDate: dueDate,
-        alarmTime: alarmTime ? new Date(alarmTime) : null // Convertir a objeto Date si se establece el tiempo de alarma
+        alarmTime: alarmTime ? new Date(alarmTime) : null 
       };
       setTasks([...tasks, newTask]);
       setInputValue('');
