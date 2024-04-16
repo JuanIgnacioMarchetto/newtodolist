@@ -1,8 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './App.css';function App() {
+import './App.css';
+
+function App() {
   const [tasks, setTasks] = useState(() => {
     const storedTasks = localStorage.getItem('tasks');
     return storedTasks ? JSON.parse(storedTasks) : [];
@@ -23,11 +24,12 @@ import './App.css';function App() {
         alarmTime: alarmTime ? new Date(alarmTime) : null,
         completed: false // Nuevo campo para marcar si la tarea está completada
       };
-      setTasks([...tasks, newTask]);
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+      localStorage.setItem('tasks', JSON.stringify(updatedTasks));
       setInputValue('');
       setDueDate(new Date());
       setAlarmTime(null);
-      localStorage.setItem('tasks', JSON.stringify([...tasks, newTask])); // Guardar en local storage
       alert('Tarea agregada exitosamente');
     }
   };
@@ -36,14 +38,14 @@ import './App.css';function App() {
     const newTasks = [...tasks];
     newTasks.splice(index, 1);
     setTasks(newTasks);
-    localStorage.setItem('tasks', JSON.stringify(newTasks)); // Guardar en local storage
+    localStorage.setItem('tasks', JSON.stringify(newTasks));
   };
 
   const handleTaskCompletion = (index) => {
     const updatedTasks = [...tasks];
     updatedTasks[index].completed = true;
     setTasks(updatedTasks);
-    localStorage.setItem('tasks', JSON.stringify(updatedTasks)); // Guardar en local storage
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
   const isTaskOverdue = (dueDate) => {
@@ -66,7 +68,7 @@ import './App.css';function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>
+        <div className="container">
           <h1>Lista de Tareas</h1>
           <input
             type="text"
@@ -80,7 +82,7 @@ import './App.css';function App() {
             value={alarmTime || ''}
             onChange={(event) => setAlarmTime(event.target.value)}
           />
-          <button onClick={handleAddTask}>Agregar</button>
+          <button className="button" onClick={handleAddTask}>Agregar</button>
           <ul>
             {tasks.map((task, index) => (
               <li key={index}>
@@ -90,9 +92,9 @@ import './App.css';function App() {
                 )}
                 {task.completed && <span style={{ color: 'green' }}> - Cumplida</span>}
                 {!task.completed && (
-                  <button onClick={() => handleTaskCompletion(index)}>Confirmar Cumplida</button>
+                  <button className="button" onClick={() => handleTaskCompletion(index)}>Confirmar Cumplida</button>
                 )}
-                <button onClick={() => handleDeleteTask(index)}>Eliminar</button>
+                <button className="button" onClick={() => handleDeleteTask(index)}>Eliminar</button>
               </li>
             ))}
           </ul>
@@ -100,4 +102,6 @@ import './App.css';function App() {
       </header>
     </div>
   );
-}export default App
+}
+
+export default App;
